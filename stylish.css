@@ -1,0 +1,11 @@
+#searchbox > table {
+	position: absolute;
+	width: auto;
+	display: table;
+	border: 1px solid black;
+}
+
+#searchbox > table > tr:hover {
+	background-color: pink;
+	cursor: default;
+}

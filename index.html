@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<title>Course Schedule Fitter</title>
+		<link rel="stylesheet" type="text/css" href="stylish.css">
+	</head>
+	<body>
+		<div id="searchbox">
+			<input id="course_input" type="text" onKeyUp="SCHEDULER.updateSuggestions(this.value)" />
+			<button id="add" onclick="SCHEDULER.addCourse()">Add</button>
+			<table id="suggest_box">
+			</table>
+		</div>
+		
+		<ul id="courses">
+		</ul>
+		<script src="scheduler.js"></script>
+	</body>
+</html>
