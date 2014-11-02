@@ -104,13 +104,13 @@ var SCHEDULER = (function () {
             this.activity   = xmlObj.getAttribute("Activity");
 
             this.checkConflict = function (otherMeeting) {
-                if (otherMeeting.day !== this.day || otherMeeting.starttime === true) {
+                if (otherMeeting.day !== this.day || otherMeeting.starttime.hour === null) {
                     return false;
-                } else if (otherMeeting.starttime >= this.starttime &&
-                           this.endtime >= otherMeeting.starttime) {
+                } else if (otherMeeting.starttime.compareTo(this.starttime) >= 0 &&
+                           this.endtime.compareTo(otherMeeting.starttime) >= 0) {
                     return true;
-                } else if (this.starttime >= otherMeeting.starttime &&
-                           otherMeeting.endtime >= this.starttime) {
+                } else if (this.starttime.compareTo(otherMeeting.starttime) >= 0 &&
+                           otherMeeting.endtime.compareTo(this.starttime) >= 0) {
                     return true;
                 }
                 return false;
@@ -124,16 +124,23 @@ var SCHEDULER = (function () {
          */
         function Time(timeStr) {
             if (timeStr === null || timeStr === undefined) {
-                this.hour ==
+                this.hour = null;
+                this.minute = null;
+            } else {
+                this.hour   = parseInt(timeStr);
+                this.minute = parseInt(timeStr.slice(2)) || parseInt(timeStr.slice(3));
             }
-            this.hour   = parseInt(timeStr);
-            this.minute = parseInt(timeStr.slice(3));
 
             // Returns minute difference between otherTime and this time
             this.compareTo = function (otherTime) {
-                return o
+                if (otherTime === null || otherTime.hour === null) {
+                    return 0;
+                }
+                return ((this.hour * 60) + this.minute) - ((otherTime.hour * 60) + otherTime.minute);
             }
         }
+
+        scheduler.Time = Time;
 
         /**
          * Parses the XML Course tags, grouping different sections together for a course
