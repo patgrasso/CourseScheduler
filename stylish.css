@@ -1,11 +1,32 @@
-#searchbox > table {
-	position: absolute;
-	width: auto;
-	display: table;
-	border: 1px solid black;
+body {
+	font-family: "Courier New", Courier, monospace;
 }
 
-#searchbox > table > tr:hover {
+#searchbox {
+	min-width: 250px;
+	max-width: 250px;
+}
+
+#searchbox > input {
+	width: calc(100% - 4px);
+}
+
+#searchbox > select {
+	font-style: "Arial Black", Gadget, sans-serif;
+	width: 100%;
+	display: block;
+	border: 1px solid black;
+	margin: 10px 0;
+}
+
+#searchbox > select:-internal-list-box {
+	-webkit-appearance: listbox;
+	-webkit-user-select: none;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#searchbox > select > option:hover {
 	background-color: pink;
 	cursor: default;
 }

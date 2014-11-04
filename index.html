@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en-US" ng-app="scheduler">
 	<head>
 		<title>Course Schedule Fitter</title>
 		<link rel="stylesheet" type="text/css" href="stylish.css">
 	</head>
 	<body>
-		<div id="searchbox">
-			<input id="course_input" type="text" onKeyUp="SCHEDULER.updateSuggestions(this.value)" />
-			<button id="add" onclick="SCHEDULER.addCourse()">Add</button>
-			<table id="suggest_box">
-			</table>
+		<div id="searchbox" ng-controller="CourseSelectController as courseCtrl">
+			<input id="course_input" type="text" ng-model="courseCtrl.query" ng-change="courseCtrl.updateSearchResults()" placeholder="Search for a course..." />
+			<br />
+			<select id="courses" size="30">
+				<option ng-repeat="course in courseCtrl.searchResults">{{course.id}} - {{course.title}}</option>
+			</select>
 		</div>
-		
-		<ul id="courses">
-		</ul>
 		<script src="js/scheduler.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.14/angular.min.js"></script>
+		<script src="js/app.js"></script>
 	</body>
 </html>

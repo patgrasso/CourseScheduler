@@ -318,36 +318,15 @@ var SCHEDULER = (function () {
 
 
         scheduler.search = function (query) {
-            var i, tr, td;
+            var i, results = [];
 
             for (i = 0; i < courses.length; i += 1) {
                 if (courses[i].id.indexOf(query) >= 0 ||
-                        courses[i].title.toUpperCase().indexOf(query) >= 0) {
-                    tr = document.createElement("tr");
-                    td = document.createElement("td");
-                    td.appendChild(document.createTextNode(courses[i].id));
-                    tr.appendChild(td);
-                    tr.addEventListener('click', function (event) {
-                        document.getElementById("course_input").value = event.target.innerText;
-                        while (suggestionBox.firstChild) {
-                            suggestionBox.removeChild(suggestionBox.firstChild);
-                        }
-                    });
-                    suggestionBox.appendChild(tr);
+                    courses[i].title.toUpperCase().indexOf(query) >= 0) {
+                    results.push(courses[i]);
                 }
             }
-        };
-
-
-        scheduler.updateSuggestions = function (query) {
-            while (suggestionBox.firstChild) {
-                suggestionBox.removeChild(suggestionBox.firstChild);
-            }
-            if (query === '' || query.trim() === '') {
-                return;
-            }
-
-            this.search(query.toUpperCase());
+            return results;
         };
 
         scheduler.courses = courses;
