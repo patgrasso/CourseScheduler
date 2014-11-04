@@ -28,7 +28,10 @@ var SCHEDULER = (function () {
 
 
         /**
-         * Time object constructor
+         * ~ Time object constructor ~
+         * Contains hour and minute properties. These properties are stored in GMT (which
+         * is just EST+4 hours). Time also contains a compareTo() method for getting the
+         * difference between two times
          */
         function Time(timeStr) {
             if (timeStr === null || timeStr === undefined) {
@@ -50,7 +53,10 @@ var SCHEDULER = (function () {
 
 
         /**
-         * Meeting object constructor
+         * ~ Meeting object constructor ~
+         * A meeting can occur on ONE day only (if a section meets on, say, M W and F
+         * from 2:00PM to 3:00PM, that would be 3 separate meetings), has a start time
+         * and end time, and all other info stored in the xml tag
          */
         function Meeting(xmlObj, day) {
             this.day        = day;
@@ -79,7 +85,9 @@ var SCHEDULER = (function () {
 
 
         /**
-         * Course object constructor
+         * ~ Course object constructor ~
+         * A course contains 1+ lectures sections and 0+ recitation, workshop, and
+         * lab sections
          */
         function Course(id, title) {
             this.id = id;
@@ -107,8 +115,10 @@ var SCHEDULER = (function () {
 
 
         /**
-         * Section object constructor
-         * Use for lectures, recitations, workshops, and labs
+         * ~ Section object constructor ~
+         * The classic section; a sub-course of a course. For the course MA 227, a section
+         * of that course might be MA 227A or MA 227B. This contains all of the course's
+         * information (such as credits, enrollment status, etc.)
          */
         function Section(xmlObj, type) {
             var i, j, d, meetingObjs;
@@ -158,6 +168,13 @@ var SCHEDULER = (function () {
         }
 
 
+        /**
+         * Given a schedule (just a collection of sections) and a course (with 
+         * potentially multiple sections), get all valid, non-conflicting groupings
+         * of sections (schedules)
+         *
+         * @returns [ [[section], [section], ...], ... ]
+         */
         function getValidSchedules(schedule, course) {
             var i, j, k, valid, tempSchedules, newSchedules;
 
@@ -187,6 +204,12 @@ var SCHEDULER = (function () {
             return newSchedules;
         }
 
+
+        /**
+         * Takes a grouping of non-conflicting sections and tries to match each with
+         * every section in setions[]. Useful as this operation needs to be done for
+         * lectures, recitations, workshops, and labs. I'm not writing this out 4 times
+         */
         function balaclava(schedule, sections) {
             var i, j, valid, tempSchedule, newSchedules = [];
 
@@ -203,6 +226,13 @@ var SCHEDULER = (function () {
             return newSchedules;
         }
 
+
+        /**
+         * Takes a list of schedules, and tries to getValidSchedulse() for each lecture,
+         * recitation, workshop, and lab
+         * TODO: Check for <requirement> tags in the html when parsing. The more information
+         *       that can be attained the better
+         */
         function mash(scheduleList, course) {
             var i, newSchedules = [];
 
@@ -250,6 +280,10 @@ var SCHEDULER = (function () {
         }
 
 
+        /**
+         * Used mainly for testing and debugging. This will find all nodes whose course IDs
+         * match the input id 
+         */
         scheduler.find = function (id) {
             var i;
             for (i = 0; i < courses.length; i += 1) {
@@ -259,32 +293,10 @@ var SCHEDULER = (function () {
             }
         };
 
-        scheduler.deepFind = function (id) {
-            var i, j;
-            for (i = 0; i < courses.length; i += 1) {
-                if (courses[i].id.indexOf(id) !== -1) {
-                    return courses[i];
-                }
-                for (j = 0; j < courses[i].lectures.length; j += 1) {
-                    if (courses[i].lectures[j].section.indexOf(id) !== -1) {
-                        return courses[i];
-                    }
-                }
-                for (j = 0; j < courses[i].recitations.length; j += 1) {
-                    if (courses[i].recitations[j].section.indexOf(id) !== -1) {
-                        return courses[i];
-                    }
-                }
-            }
-        };
 
-        function addToList(text) {
-            var li = document.createElement("li");
-            li.appendChild(document.createTextNode(text));
-            itemList.appendChild(li);
-        }
-
-
+        /**
+         * Initialize the scheduler. Grab data from another source and parse it
+         */
         scheduler.init = function () {
             var fileToGet = '2015S-' + (new Date()).toLocaleDateString().replace(/\//g, '-') + '.xml';
 
@@ -304,19 +316,9 @@ var SCHEDULER = (function () {
         };
 
 
-        scheduler.addCourse = function () {
-            var i, j, query = document.getElementById("course_input").value;
-
-            for (i = 0; i < courses.length; i += 1) {
-                if (courses[i].id === query) {
-                    for (j = 0; j < courses[i].lectures.length; j += 1) {
-                        addToList(courses[i].lectures[j].section);
-                    }
-                }
-            }
-        };
-
-
+        /**
+         * Searches for all courses with a title or id containing the query
+         */
         scheduler.search = function (query) {
             var i, results = [];
 
@@ -334,6 +336,7 @@ var SCHEDULER = (function () {
     })();
 
 
+// Set up stuff
 window.onload = SCHEDULER.init();
 window.onkeydown = function (event) {
     "use strict";
