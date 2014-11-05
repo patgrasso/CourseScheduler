@@ -3,20 +3,32 @@ body {
 }
 
 #searchbox {
-	min-width: 250px;
-	max-width: 250px;
+	min-width: 300px;
+	max-width: 300px;
+	width: 300px;
+	display: table;
 }
 
 #searchbox > input {
 	width: calc(100% - 4px);
+	grid-row: 0;
 }
 
 #searchbox > select {
 	font-style: "Arial Black", Gadget, sans-serif;
-	width: 100%;
-	display: block;
 	border: 1px solid black;
-	margin: 10px 0;
+	margin: 10px 0px;
+	vertical-align: top;
+}
+
+#searchbox #courses {
+	width: 221px;
+	margin-right: 2px;
+}
+
+#searchbox #sections {
+	width: 75px;
+	margin-left: 2px;
 }
 
 #searchbox > select:-internal-list-box {
