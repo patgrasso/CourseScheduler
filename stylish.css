@@ -2,11 +2,16 @@ body {
 	font-family: "Courier New", Courier, monospace;
 }
 
+#wrapper {
+	width: 100%;
+}
+
 #searchbox {
 	min-width: 300px;
 	max-width: 300px;
 	width: 300px;
-	display: table;
+	display: inline-table;
+	vertical-align: top;
 }
 
 #searchbox > input {
@@ -21,8 +26,8 @@ body {
 	vertical-align: top;
 }
 
-#searchbox #courses {
-	width: 221px;
+#searchbox #courses, #selected_courses {
+	width: 290px;
 	margin-right: 2px;
 }
 
@@ -41,4 +46,31 @@ body {
 #searchbox > select > option:hover {
 	background-color: pink;
 	cursor: default;
+}
+
+#searchbox > p {
+	margin: 0px 0px;
+}
+
+
+calendar > table {
+	display: inline-table;
+	float: right;
+	vercal-align: top;
+	width: calc(100% - 600px);
+	height: 500px;
+	background-color: cyan;
+}
+
+calendar tr {
+	display: table-row;
+	width: 100%;
+}
+
+calendar td {
+	display: table-cell;
+	position: relative;
+	width: 20%;
+	border: 1px solid black;
+	background-color: lightgray;
 }

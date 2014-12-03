@@ -14,8 +14,32 @@
 			this.currentSection = this.searchResults[0].lectures[0];
 		};
 
-		this.updateRecitations = function () {
-			this.currentSection = this.currentSelection.lectures[0];
+
+		this.currentlySelectedQuery = "";
+		this.currentlySelected = [];
+
+		this.addCourseToSelected = function () {
+			if (this.currentlySelected.indexOf(this.current) === -1) {
+				this.currentlySelected.push(this.current);
+			}
 		};
+
+		this.removeCourseFromSelected = function () {
+			var index = this.currentlySelected.indexOf(this.currentlySelectedQuery[0]);
+			this.currentlySelected = this.currentlySelected.splice(0, index).concat(
+							this.currentlySelected.splice(1));
+
+		};
+
+
+		this.schedules = [];
+
+		this.makeSchedule = function () {
+			this.schedules = makeMySchedule(this.currentlySelected.map(function (arr) {
+				return arr[0].id;
+			}));
+		};
+
+		
 	});
 })();

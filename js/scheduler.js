@@ -231,7 +231,7 @@ var SCHEDULER = (function () {
          * Takes a list of schedules, and tries to getValidSchedulse() for each lecture,
          * recitation, workshop, and lab
          * TODO: Check for <requirement> tags in the html when parsing. The more information
-         *       that can be attained the better
+         *       that can be obtained the better
          */
         function mash(scheduleList, course) {
             var i, newSchedules = [];
