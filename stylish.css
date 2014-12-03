@@ -16,7 +16,6 @@ body {
 
 #searchbox > input {
 	width: calc(100% - 4px);
-	grid-row: 0;
 }
 
 #searchbox > select {
@@ -26,9 +25,18 @@ body {
 	vertical-align: top;
 }
 
-#searchbox #courses, #selected_courses {
-	width: 290px;
+#searchbox #courses, #selected_courses, #schedules {
+	width: 280px;
 	margin-right: 2px;
+}
+
+#make_schedules_btn {
+	display: list-item;
+	margin-bottom: 10px;
+}
+
+#searchbox, #schedulebox {
+	display: inline-block;
 }
 
 #searchbox #sections {
@@ -72,5 +80,5 @@ calendar td {
 	position: relative;
 	width: 20%;
 	border: 1px solid black;
-	background-color: lightgray;
+	/*background-color: lightgray;*/
 }

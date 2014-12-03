@@ -30,8 +30,19 @@
 				ng-dblclick="scheduler.removeCourseFromSelected()">
 			</select>
 		</div>
+		<div id="schedulebox">
+			<button id="make_schedules_btn" ng-click="scheduler.makeSchedule()">Make Schedules</button>
+			<select
+				multiple
+				id="schedules"
+				size="15"
+				ng-model="scheduler.currentSchedule"
+				ng-click="scheduler.sendScheduleToCalendar()"
+				ng-options="'Schedule' for sch in scheduler.schedules">
+			</select>
+		</div>
 		<calendar></calendar>
-		<button ng-click="scheduler.makeSchedule()">Make Schedules</button>
+		
 
 		<script src="js/scheduler.js"></script>
 		<script src="js/calendar.js"></script>

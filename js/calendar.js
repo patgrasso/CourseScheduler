@@ -10,7 +10,9 @@ var CALENDAR = (function () {
 
 		var calendar = {},
 			timeslot = [],
-			wrapper;
+			wrapper,
+			dayIndex = {'M': 0, 'T': 1, 'W': 2, 'R': 3, 'F': 4};
+
 
 		calendar.init = function () {
 			var i, j, tr;
@@ -28,6 +30,44 @@ var CALENDAR = (function () {
 				wrapper.appendChild(tr);
 			}
 		};
+
+
+		calendar.update = function (schedule) {
+			var section, meeting, i;
+
+			calendar.clear();
+
+			for (section in schedule) {
+				section = schedule[section];
+				for (meeting in section.meetings) {
+					meeting = section.meetings[meeting];
+
+					for (i = Math.round(meeting.starttime.hour + meeting.starttime.minute / 60) - 3;
+							i < Math.round(meeting.endtime.hour + meeting.endtime.minute / 60) - 3;
+							i += 1) {
+						modifyTD(i, dayIndex[meeting.day], section.section);
+					}
+				}
+			}
+		};
+
+
+		calendar.clear = function () {
+			var i, j;
+
+			for (i in timeslot) {
+				for (j in timeslot[i]) {
+					timeslot[i][j].innerHTML = '';
+				}
+			}
+		};
+
+
+		function modifyTD(i, j, text) {
+			var td = document.getElementsByTagName('tr')[i].childNodes[j]
+			td.style = 'background-color: #ffff00;';
+			td.appendChild(document.createTextNode(text));
+		}
 
 		calendar.timeslot = timeslot;
 

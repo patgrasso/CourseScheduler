@@ -6,12 +6,10 @@
 		this.searchResults = SCHEDULER.courses;
 		this.query = "";
 		this.current = this.searchResults[0];
-		this.currentSection = null;
 
 		this.updateSearchResults = function () {
 			this.searchResults = SCHEDULER.search(this.query.toUpperCase());
 			this.current = this.searchResults[0];
-			this.currentSection = this.searchResults[0].lectures[0];
 		};
 
 
@@ -33,11 +31,16 @@
 
 
 		this.schedules = [];
+		this.currentSchedule = null;
 
 		this.makeSchedule = function () {
 			this.schedules = makeMySchedule(this.currentlySelected.map(function (arr) {
 				return arr[0].id;
 			}));
+		};
+
+		this.sendScheduleToCalendar = function () {
+			CALENDAR.update(this.currentSchedule[0]);
 		};
 
 		
