@@ -15,14 +15,38 @@ var CALENDAR = (function () {
 
 
 		calendar.init = function () {
-			var i, j, tr;
+			var i, j, tr, td;
 
 			wrapper = document.createElement('table');
 			document.getElementsByTagName('calendar')[0].appendChild(wrapper);
 
+			// M-F
+			tr = document.createElement('tr');
+			td = document.createElement('td');
+			tr.appendChild(td);
+			td = document.createElement('td');
+			td.appendChild(document.createTextNode('M'));
+			tr.appendChild(td);
+			td = document.createElement('td');
+			td.appendChild(document.createTextNode('T'));
+			tr.appendChild(td);
+			td = document.createElement('td');
+			td.appendChild(document.createTextNode('W'));
+			tr.appendChild(td);
+			td = document.createElement('td');
+			td.appendChild(document.createTextNode('R'));
+			tr.appendChild(td);
+			td = document.createElement('td');
+			td.appendChild(document.createTextNode('F'));
+			tr.appendChild(td);
+			wrapper.appendChild(tr);
+
 			for (i = 0; i < 13; i += 1) {
 				timeslot[i] = [];
 				tr = document.createElement('tr');
+				td = document.createElement('td');
+				td.appendChild(document.createTextNode((i + 8) % 13));
+				tr.appendChild(td);
 				for (j = 0; j < 5; j += 1) {
 					timeslot[i][j] = document.createElement('td');
 					tr.appendChild(timeslot[i][j]);
@@ -45,7 +69,7 @@ var CALENDAR = (function () {
 					for (i = Math.round(meeting.starttime.hour + meeting.starttime.minute / 60) - 3;
 							i < Math.round(meeting.endtime.hour + meeting.endtime.minute / 60) - 3;
 							i += 1) {
-						modifyTD(i, dayIndex[meeting.day], section.section);
+						modifyTD(i, dayIndex[meeting.day]+1, section.section);
 					}
 				}
 			}
